@@ -18,5 +18,22 @@ GONADS.LobbyMenu = GONADS.AView.extend({
     enter_game: function(){
         GONADS.GameState.goToState('in_game');
     },
-    templateName: 'lobby-menus'
+    templateName: 'lobby-menus',
+
+})
+
+GONADS.TilesViewer = Em.ArrayProxy.extend({
+    content: function(){
+
+    }
+})
+
+GONADS.TileArt = GONADS.View.extend({
+        init: function(){
+
+        }
+    })
+
+GONADS.Map = GONADS.View.extend({
+    
 })
