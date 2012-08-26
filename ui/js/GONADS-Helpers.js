@@ -25,7 +25,7 @@ the same name. (base stylesheets have no name, represented by an id tag in DOM)
 */
 function set_named_stylesheet(id, css)
 {
-    $('#'+id).remove();
+    $('style#'+id).remove();
 
     var head = document.getElementsByTagName('head')[0],
         style = document.createElement('style');

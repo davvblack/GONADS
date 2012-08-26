@@ -3,8 +3,30 @@
 
 </script>
 
+<!--script type="text/x-handlebars" data-template-name="map-view">
+    {{#each GONADS.tiles_viewer}}
+        {{tile_type}}
+    {{/each}}
+</script-->
+<style type="text/css">
+.tile1 { }
+.tile{margin-left:-40px; width:140px; height: 80px; position: absolute;}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+.flat1{background: url('img/floor_tile.png') }
+.impassable1{background: url('img/impassable_tile.png'); height: 160px;}
+</style>
+
+<script type="text/x-handlebars" data-template-name="tile">
+
+    tile
+</script>
+
+<script type="text/x-handlebars" data-template-name="map-view">
+{{view GONADS.TilesView}}
+map
+</script>
+
+<script src="js/libs/jquery.js"></script>
 <script src="js/libs/jquery-ui-1.8.22.custom.min.js"></script>
 <script type="text/javascript">
     window.ENV={};
@@ -25,6 +47,3 @@
 <div id="main">
 
 </div>
-
-
-

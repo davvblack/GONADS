@@ -7,9 +7,12 @@ GONADS.Lobby = Em.Object.create({
 
 GONADS.Game = Em.Object.extend({
     init: function() {
+        GONADS.tiles_list = GONADS.TilesList.create();
         GONADS.map = GONADS.Map.create();
-        GONADS.map.fill(0,0,100,100,tile.FLAT);
-        GONADS.map.rect(2,2,4,4,tile.IMPASSABLE);
+        GONADS.map.fill(0,0,10,10,GONADS.TILES.get('FLAT'));
+        GONADS.map.rect(2,2,4,4,GONADS.TILES.get('IMPASSABLE'));
+        //GONADS.map.spot(2,3,GONADS.TILES.get('FLAT'));
+
     },
 
 
@@ -21,7 +24,9 @@ GONADS.Game = Em.Object.extend({
 
 GONADS.Tile = Em.Object.extend({
     init: function(){
-
+        //GONADS.map.viewer.content.pushObject(this)
+        GONADS.tiles_list.content.pushObject(this);
+        //console.log(this);
     },
     set_tile: function(tile_type){
         this.tile_type = tile_type;
@@ -33,7 +38,8 @@ GONADS.Tile = Em.Object.extend({
 
 GONADS.Map = Em.Object.extend({
     init: function() {
-        this.content={}
+        this.content = {};
+        //this.viewer = GONADS.TilesViewer.create();
     },
     coord: function(x,y) {
         var to_return;
@@ -43,14 +49,14 @@ GONADS.Map = Em.Object.extend({
         }
         else
         {
-            to_return = this.content[coord_name(x,y)] = GONADS.Tile.create({})
+            to_return = this.content[coord_name(x,y)] = GONADS.Tile.create({x:x,y:y})
         }
         return to_return;
     },
     fill: function(x1, y1, x2, y2, tile) {
         for( var i = x1; i <= x2; i++)
         {
-            for( var j = y1; j < y2; j++)
+            for( var j = y1; j <= y2; j++)
             {
                 this.coord(i,j).set_tile(tile)
             }
@@ -67,6 +73,14 @@ GONADS.Map = Em.Object.extend({
             this.coord(x1,j).set_tile(tile);
             this.coord(x2,j).set_tile(tile);
         }
+    },
+    spot: function(x,y,tile)
+    {
+        this.coord(x,y).set_tile(tile);
+    },
+    refresh_pathing: function()
+    {
+
     }
 });
 
@@ -103,6 +117,9 @@ GONADS.GameState = GONADS.Status.create({
         in_game: Em.State.create({
             enter: function () {
                 GONADS.game = GONADS.Game.create();
+                GONADS.map_view = GONADS.MapView.create();
+                GONADS.map_view.appendTo("#main");
+
             },
             exit: function () {
                 GONADS.game.destroy();
