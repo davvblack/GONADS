@@ -7,11 +7,12 @@ GONADS.Lobby = Em.Object.create({
 
 GONADS.Game = Em.Object.extend({
     init: function() {
-        GONADS.tiles_list = GONADS.TilesList.create();
+        GONADS.tile_view = GONADS.TilesView.create();
+        GONADS.tile_view.appendTo('#main');
         GONADS.map = GONADS.Map.create();
         GONADS.map.fill(0,0,10,10,GONADS.TILES.get('FLAT'));
-        GONADS.map.rect(2,2,4,4,GONADS.TILES.get('IMPASSABLE'));
-        //GONADS.map.spot(2,3,GONADS.TILES.get('FLAT'));
+
+
 
     },
 
@@ -25,14 +26,18 @@ GONADS.Game = Em.Object.extend({
 GONADS.Tile = Em.Object.extend({
     init: function(){
         //GONADS.map.viewer.content.pushObject(this)
-        GONADS.tiles_list.content.pushObject(this);
+        GONADS.tile_view.content.pushObject(this);
+        this.set('view_index', GONADS.tile_view.content.length-1);
         //console.log(this);
     },
     set_tile: function(tile_type){
-        this.tile_type = tile_type;
+        this.set('tile_type', tile_type);
+        console.log(this.get('view_index'));
+        console.log(tile_type);
+        GONADS.tile_view.content.objectAt(this.get('view_index')).set('tile_type',tile_type);
     },
     get_tile: function(){
-        return this.tile_type;
+        return this.get('tile_type');
     }
 })
 
@@ -68,7 +73,7 @@ GONADS.Map = Em.Object.extend({
             this.coord(i,y1).set_tile(tile);
             this.coord(i,y2).set_tile(tile);
         };
-        for( var j = y1; j < y2; j++)
+        for( var j = y1; j <= y2; j++)
         {
             this.coord(x1,j).set_tile(tile);
             this.coord(x2,j).set_tile(tile);
@@ -81,7 +86,8 @@ GONADS.Map = Em.Object.extend({
     refresh_pathing: function()
     {
 
-    }
+    },
+
 });
 
 GONADS.Status = Em.StateManager.extend({
