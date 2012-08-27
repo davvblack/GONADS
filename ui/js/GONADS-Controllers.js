@@ -30,7 +30,7 @@ GONADS.Game = Em.Object.extend({
         //console.log('updating state');
         for(var i=0; i<GONADS.nests.length;i++)
         {
-            GONADS.nests[i].time_left = GONADS.nests[i].get('time_left') - 50;
+            GONADS.nests[i].time_left = GONADS.nests[i].get('time_left') - 10;
             if(GONADS.nests[i].time_left < 0)
             {
                 //console.log('creating robot');
@@ -52,12 +52,13 @@ GONADS.Game = Em.Object.extend({
                 {
                     case "moving":
                         //console.log('moving');
-                        var new_facing = GONADS.map.coord(e_arr[i].get('x'), e_arr[i].get('y')).get('path');
+                        var facing = GONADS.map.coord(e_arr[i].get('x'), e_arr[i].get('y')).get('path');
                         //console.log(new_facing);
-                        delta = delta_from_cardinal(new_facing);
-                        GONADS.entities.objectAt(i).set('x', e_arr[i].get('x')+delta.x);
-                        GONADS.entities.objectAt(i).set('y', e_arr[i].get('y')+delta.y);
-                        GONADS.entities.objectAt(i).set('facing',new_facing);
+                        delta = delta_from_cardinal(facing);
+                        var new_facing = GONADS.map.coord(e_arr[i].get('x')+delta.x, e_arr[i].get('y')+delta.y).get('path');
+                        GONADS.entities.objectAt(i).setProperties({'x': e_arr[i].get('x')+delta.x,
+                                                                   'y': e_arr[i].get('y')+delta.y,
+                                                                   'facing': new_facing});
                         break;
 
                 }
@@ -73,7 +74,7 @@ GONADS.Game = Em.Object.extend({
 });
 
 GONADS.Nest = Em.Object.extend({
-    time_left: 1000
+    time_left: 10
 })
 
 GONADS.Tile = Em.Object.extend({

@@ -44,6 +44,7 @@ GONADS.TileArt = GONADS.View.extend({
     count_steps: function () {
         console.log(this.get('content.steps'));
         console.log(this.get('content.path'));
+        console.log(this.get('content.x'));
     },
 
     classNameBindings:['tile_bkg_class'],
@@ -77,8 +78,11 @@ GONADS.EntityArt = GONADS.View.extend({
         //console.log(bl);
         var bl_next = bl_from_xy(this.get('content.x')+coord_delta.x, this.get('content.y')+coord_delta.y);
 
-        this.$().css({left:bl.left+'px',bottom:bl.bottom+'px'}).css('z-index',-bl.bottom);
-        this.$().animate({left:bl_next.left+'px',bottom:bl_next.bottom+'px'}, this.get('content.speed'))
+        this.$().css({left:bl.left+'px',bottom:bl.bottom+'px'}).css('z-index',-bl_next.bottom);
+        console.log(bl.left, bl_next.left);
+        this.$().animate({left:bl_next.left+'px',bottom:bl_next.bottom+'px'}, this.get('content.speed')-200)
+
+        this.$().html(this.get('content.x') + this.get('content.y') + this.get('content.facing'));
     }.observes('content.x','content.y','content.facing'),
     templateNameBinding:'template_computer',
     template_computer: function () {
