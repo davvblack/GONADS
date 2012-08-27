@@ -100,6 +100,9 @@ GONADS.EntityArt = GONADS.View.extend({
 
             //this.$().html(this.get('content.x') + this.get('content.y') + this.get('content.facing'));
         }
+        else{
+            this.$().html('');
+        }
     }.observes('content.x','content.y','content.facing'),
     templateName:'robot-template',
     /*
