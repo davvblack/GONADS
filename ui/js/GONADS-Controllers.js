@@ -10,7 +10,7 @@ GONADS.Game = Em.Object.extend({
         GONADS.tile_view = GONADS.TilesView.create();
         GONADS.tile_view.appendTo('#main');
         GONADS.map = GONADS.Map.create();
-        GONADS.map.fill(0,0,10,10,GONADS.TILES.get('FLAT'));
+        GONADS.map.fill(0,0,15,15,GONADS.TILES.get('FLAT'));
 
 
 

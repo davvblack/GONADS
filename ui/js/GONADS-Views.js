@@ -75,14 +75,15 @@ GONADS.TilesView = Ember.CollectionView.extend({
 GONADS.MapView = GONADS.View.extend({
     templateName: 'map-view',
     didInsertElement: function() {
-        GONADS.map.rect(1,1,9,3,GONADS.TILES.get('IMPASSABLE'));
-        GONADS.map.rect(6,3,9,6,GONADS.TILES.get('IMPASSABLE'));
-        GONADS.map.spot(8,3,GONADS.TILES.get('FLAT'));
-        GONADS.map.spot(7,6,GONADS.TILES.get('NEST'));
-        GONADS.map.spot(2,3,GONADS.TILES.get('FLAT'));
-        GONADS.map.rect(1,5,4,9,GONADS.TILES.get('IMPASSABLE'));
-        GONADS.map.spot(4,7,GONADS.TILES.get('FLAT'));
-        GONADS.map.spot(2,8,GONADS.TILES.get('GOAL'));
+        GONADS.map.rect(1,1,14,4,GONADS.TILES.get('IMPASSABLE'));
+        GONADS.map.rect(10,4,14,10,GONADS.TILES.get('IMPASSABLE'));
+        GONADS.map.spot(11,4,GONADS.TILES.get('FLAT'));
+        GONADS.map.spot(12,10,GONADS.TILES.get('NEST'));
+        GONADS.map.spot(2,4,GONADS.TILES.get('FLAT'));
+
+        GONADS.map.rect(1,7,6,11,GONADS.TILES.get('IMPASSABLE'));
+        GONADS.map.spot(6,9,GONADS.TILES.get('FLAT'));
+        GONADS.map.spot(2,9,GONADS.TILES.get('GOAL'));
 
         //GONADS.map.spot(2,3,GONADS.TILES.get('IMPASSABLE'));
     }
