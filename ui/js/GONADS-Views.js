@@ -74,6 +74,8 @@ GONADS.TilesView = Ember.CollectionView.extend({
 
 GONADS.EntityArt = GONADS.View.extend({
     didInsertElement: function () {
+        var bl = bl_from_xy(this.get('content.x'), this.get('content.y'));
+        this.$().css({left:bl.left+30+'px',bottom:bl.bottom+30+'px'})
         this.reposition();
     },
     cardinality: 'south',
@@ -83,10 +85,10 @@ GONADS.EntityArt = GONADS.View.extend({
         var bl = bl_from_xy(this.get('content.x'), this.get('content.y'));
         //console.log(bl);
         var bl_next = bl_from_xy(this.get('content.x')+coord_delta.x, this.get('content.y')+coord_delta.y);
-
-        this.$().css({left:bl.left+30+'px',bottom:bl.bottom+30+'px'}).css('z-index',-Math.min(bl.bottom,bl_next.bottom)+20);
+//css({left:bl.left+30+'px',bottom:bl.bottom+30+'px'})
+        this.$().css('z-index',-Math.min(bl.bottom,bl_next.bottom)+50);
         //console.log(bl.left, bl_next.left);
-        this.$().animate({left:bl_next.left+30+'px',bottom:bl_next.bottom+30+'px'}, this.get('content.speed')-300)
+        this.$().animate({left:bl_next.left+30+'px',bottom:bl_next.bottom+30+'px'}, this.get('content.speed')-300);
         var direction_names = {N:'north',S:'south',E:'east',W:'west'};
         this.set('cardinality', direction_names[this.get('content.facing')]);
 
@@ -116,6 +118,7 @@ GONADS.MapView = GONADS.View.extend({
         GONADS.map.rect(1,1,14,4,GONADS.TILES.get('IMPASSABLE'));
         GONADS.map.rect(10,4,14,10,GONADS.TILES.get('IMPASSABLE'));
         GONADS.map.spot(11,4,GONADS.TILES.get('FLAT'));
+        GONADS.map.spot(12,4,GONADS.TILES.get('FLAT'));
         GONADS.map.spot(12,10,GONADS.TILES.get('NEST'));
         GONADS.map.spot(2,4,GONADS.TILES.get('FLAT'));
 
