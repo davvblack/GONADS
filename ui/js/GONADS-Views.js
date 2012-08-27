@@ -73,12 +73,45 @@ GONADS.TilesView = Ember.CollectionView.extend({
     classNames: ['map']
 })
 
+/*this.set('configuration',{
+            base: base,
+            chassis: pick(chassis),
+            tools: [pick(tools), pick(tools), pick(tools)],
+        })*/
+
 GONADS.EntityArt = GONADS.View.extend({
     didInsertElement: function () {
         var bl = bl_from_xy(this.get('content.x'), this.get('content.y'));
         this.$().css({left:bl.left+30+'px',bottom:bl.bottom+30+'px'})
         this.reposition();
         //console.log(this.get('content'));
+        var config = this.get('content.configuration');
+        var base = config.base;
+        var tools = config.tools;
+        var chassis = config.chassis;
+        var html= '<div class="base base-'+base+'">\
+        <div class="chassis chassis-'+chassis+'">';
+
+          if(tools[2])html+='<div class="weapon-slot weapon-slot-3 filled">\
+            <div class="weapon weapon-'+tools[2]+'"></div>\
+            <div class="weapon-slot-graphic"></div>\
+          </div>';
+
+          html+='<div class="chassis-graphic"></div>';
+
+          if(tools[1])html+='<div class="weapon-slot weapon-slot-2 filled">\
+            <div class="weapon weapon-'+tools[1]+'"></div>\
+            <div class="weapon-slot-graphic"></div>\
+          </div>';
+          if(tools[0])html+='<div class="weapon-slot weapon-slot-1 filled">\
+            <div class="weapon weapon-'+tools[0]+'"></div>\
+            <div class="weapon-slot-graphic"></div>\
+          </div>';
+
+        html+='</div>\
+      </div>';
+
+    this.$().html(html);
     },
     cardinality: 'south',
     reposition: function() {

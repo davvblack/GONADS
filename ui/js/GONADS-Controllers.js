@@ -8,16 +8,22 @@ GONADS.Lobby = Em.Object.create({
 GONADS.Robot = Em.Object.extend({
     init: function () {
         this.set('facing',GONADS.map.coord(this.get('x'),this.get('y')).get('path'));
-        this.set('speed',1000);
+
         this.set('action','moving');
-        this.set('action_timing',1000);
 
 
-
+        var tools = [false,false,false,'axe','axe','hammer','hammer',
+                     'spike','spike','saw','jackhammer','welder'];
+        var bases = ['leg','tread','wheel','hover'];
+        var chassis = ['sweeper', 'wedge', 'tall', 'long'];
+        var speeds = {wheel:1500,tread:1250,leg:1000,hover:700};
+        var base = pick(bases);
+        this.set('action_timing',speeds[base]);
+        this.set('speed',speeds[base]);
         this.set('configuration',{
-
-
-
+            base: base,
+            chassis: pick(chassis),
+            tools: [pick(tools), pick(tools), pick(tools)],
         })
     }
     ,
@@ -337,7 +343,7 @@ GONADS.Status = Em.StateManager.extend({
 });
 
 GONADS.GameState = GONADS.Status.create({
-    initialState: 'in_lobby',
+    initialState: 'in_game',
     states: {
 
         in_lobby: Em.State.create({
