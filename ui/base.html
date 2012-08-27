@@ -4,7 +4,32 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="robot-template">
-
+test {{facing}} {{content.facing}}
+<div class="base base-leg">
+    <div class="chassis chassis-wedge">
+      <div class="weapon-slot weapon-slot-5 filled">
+        <div class="weapon weapon-jackhammer"></div>
+        <div class="weapon-slot-graphic"></div>
+      </div>
+      <div class="weapon-slot weapon-slot-4 filled">
+        <div class="weapon weapon-jackhammer"></div>
+        <div class="weapon-slot-graphic"></div>
+      </div>
+      <div class="weapon-slot weapon-slot-3 filled">
+        <div class="weapon weapon-jackhammer"></div>
+        <div class="weapon-slot-graphic"></div>
+      </div>
+      <div class="chassis-graphic"></div>
+      <div class="weapon-slot weapon-slot-2 filled">
+        <div class="weapon-slot-graphic"></div>
+        <div class="weapon weapon-welder"></div>
+      </div>
+      <div class="weapon-slot weapon-slot-1 filled">
+        <div class="weapon-slot-graphic"></div>
+        <div class="weapon weapon-welder"></div>
+      </div>
+    </div>
+  </div>
 </script>
 
 <!--script type="text/x-handlebars" data-template-name="map-view">
@@ -55,6 +80,8 @@ body{
     transform: scale(0.1);
 }
 </style>
+
+<link rel='stylesheet' href='css/robot.css'></style>
 
 <script type="text/x-handlebars" data-template-name="tile">
 <!--<a {{action count_steps}}>.</a>-->

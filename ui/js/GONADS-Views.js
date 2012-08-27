@@ -76,6 +76,7 @@ GONADS.EntityArt = GONADS.View.extend({
     didInsertElement: function () {
         this.reposition();
     },
+    cardinality: 'south',
     reposition: function() {
         var coord_delta = delta_from_cardinal(this.get('content.facing'));
         //console.log(coord_delta);
@@ -83,17 +84,22 @@ GONADS.EntityArt = GONADS.View.extend({
         //console.log(bl);
         var bl_next = bl_from_xy(this.get('content.x')+coord_delta.x, this.get('content.y')+coord_delta.y);
 
-        this.$().css({left:bl.left+'px',bottom:bl.bottom+'px'}).css('z-index',-bl_next.bottom);
+        this.$().css({left:bl.left+30+'px',bottom:bl.bottom+30+'px'}).css('z-index',-Math.min(bl.bottom,bl_next.bottom)+20);
         //console.log(bl.left, bl_next.left);
-        this.$().animate({left:bl_next.left+'px',bottom:bl_next.bottom+'px'}, this.get('content.speed')-200)
+        this.$().animate({left:bl_next.left+30+'px',bottom:bl_next.bottom+30+'px'}, this.get('content.speed')-300)
+        var direction_names = {N:'north',S:'south',E:'east',W:'west'};
+        this.set('cardinality', direction_names[this.get('content.facing')]);
 
-        this.$().html(this.get('content.x') + this.get('content.y') + this.get('content.facing'));
+        //this.$().html(this.get('content.x') + this.get('content.y') + this.get('content.facing'));
     }.observes('content.x','content.y','content.facing'),
-    templateNameBinding:'template_computer',
-    template_computer: function () {
+    templateName:'robot-template',
+    /*
+     template_computer: function () {
         return 'robot-template';
     }.property(),
-    classNames: ['tile'],
+    */
+    classNames: ['tile','robot'],
+    classNameBindings: ['cardinality']
 });
 
 GONADS.EntityView = Ember.CollectionView.extend({

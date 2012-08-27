@@ -70,7 +70,7 @@ body {
   display: block;
 }
 .robot {
-  position: relative;
+  position: absolute;
 }
 .robot .base {
   background-color: transparent;

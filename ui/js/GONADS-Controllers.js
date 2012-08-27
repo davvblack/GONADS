@@ -12,6 +12,8 @@ GONADS.Robot = Em.Object.extend({
         this.set('action','moving');
         this.set('action_timing',1000);
     }
+    ,
+    facing:'N',
 })
 
 GONADS.Game = Em.Object.extend({
@@ -23,6 +25,7 @@ GONADS.Game = Em.Object.extend({
         GONADS.map = GONADS.Map.create();
         GONADS.map.fill_clean(0,0,15,15,GONADS.TILES.get('FLAT'), true);
         GONADS.updater = setInterval(function(){GONADS.game.update_state()},100);
+        GONADS.animator = setInterval(function(){GONADS.game.update_state()},300);
         //GONADS.updater.start();
         GONADS.nests = [GONADS.Nest.create({x:12,y:9})];
         GONADS.entities = Ember.ArrayController.create({content:[]});
@@ -39,7 +42,7 @@ GONADS.Game = Em.Object.extend({
         GONADS.map.refresh_pathing();
     },
 
-    update_state: function() {
+    animate: function () {
         if(this.tock)
         {
             this.tock = false;
@@ -47,8 +50,12 @@ GONADS.Game = Em.Object.extend({
         }
         else
         {
+            this.tock = true;
             $('body').addClass('tock');
         }
+    },
+
+    update_state: function() {
         //console.log('updating state');
         for(var i=0; i<GONADS.nests.length;i++)
         {
