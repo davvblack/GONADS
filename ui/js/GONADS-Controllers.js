@@ -16,7 +16,7 @@ GONADS.Robot = Em.Object.extend({
                      'spike','spike','saw','jackhammer','welder'];
         var bases = ['leg','tread','wheel','hover'];
         var chassis = ['sweeper', 'wedge', 'tall', 'long'];
-        var speeds = {wheel:1500,tread:1250,leg:1000,hover:700};
+        var speeds = {wheel:700,tread:1000,leg:1300,hover:2000};
         var base = pick(bases);
         this.set('action_timing',speeds[base]);
         this.set('speed',speeds[base]);
