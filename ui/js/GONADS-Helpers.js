@@ -19,6 +19,67 @@ if (typeof console == "undefined") {
     };
 }
 
+function min_object(object, key)
+{
+    var min_val = INFINITY;
+    var min_key = false;
+    for(i in object)
+    {
+        if(object.hasOwnProperty(i))
+        {
+            if(key)
+            {
+                if (object[i][key]<min_val)
+                {
+                    min_key = i;
+                    min_val = object[i][key];
+                }
+            }
+            else
+            {
+                if (object[i]<min_val)
+                {
+                    min_key = i;
+                    min_val = object[i];
+
+                }
+            }
+        }
+    }
+    return {val: min_val, key: min_key};
+}
+
+function max_object(object, key)
+{
+    var max_val = -INFINITY;
+    var max_key = false;
+    for(i in object)
+    {
+        if(object.hasOwnProperty(i))
+        {
+            if(key)
+            {
+                if (object[i][key]>max_val)
+                {
+                    max_key = i;
+                    max_val = object[i][key];
+                }
+            }
+            else
+            {
+                if (object[i]>max_val)
+                {
+                    max_key = i;
+                    max_val = object[i];
+
+                }
+            }
+        }
+    }
+    return {val: max_val, key: max_key};
+}
+
+
 /*
 Sets a named stylesheet that will replace a previously creatad stylesheet with
 the same name. (base stylesheets have no name, represented by an id tag in DOM)
