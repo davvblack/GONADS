@@ -27,9 +27,9 @@ GONADS.TileArt = GONADS.View.extend({
 
     },
     didInsertElement: function () {
-        var bottom = (this.get('content.y') - this.get('content.x')) * GONADS.Core.get('tile_y_delta');
-        var left = (this.get('content.x') + this.get('content.y')) * GONADS.Core.get('tile_x_delta');
-        this.$().css({left:left+'px',bottom:bottom+'px'}).css('z-index',-bottom);
+        var bl = bl_from_xy(this.get('content.x'), this.get('content.y'));
+
+        this.$().css({left:bl.left+'px',bottom:bl.bottom+'px'}).css('z-index',-bl.bottom);
     },
     templateName: "tile",
     place: function () {
@@ -66,6 +66,32 @@ GONADS.TilesView = Ember.CollectionView.extend({
     itemViewClass: GONADS.TileArt.extend()
 })
 
+GONADS.EntityArt = GONADS.View.extend({
+    didInsertElement: function () {
+        this.reposition();
+    },
+    reposition: function() {
+        var coord_delta = delta_from_cardinal(this.get('content.facing'));
+        //console.log(coord_delta);
+        var bl = bl_from_xy(this.get('content.x'), this.get('content.y'));
+        //console.log(bl);
+        var bl_next = bl_from_xy(this.get('content.x')+coord_delta.x, this.get('content.y')+coord_delta.y);
+
+        this.$().css({left:bl.left+'px',bottom:bl.bottom+'px'}).css('z-index',-bl.bottom);
+        this.$().animate({left:bl_next.left+'px',bottom:bl_next.bottom+'px'}, this.get('content.speed'))
+    }.observes('content.x','content.y','content.facing'),
+    templateNameBinding:'template_computer',
+    template_computer: function () {
+        return 'robot-template';
+    }.property(),
+    classNames: ['tile'],
+});
+
+GONADS.EntityView = Ember.CollectionView.extend({
+    tagName: 'div',
+    contentBinding: "GONADS.entities",
+    itemViewClass: GONADS.EntityArt.extend()
+})
 
 
 

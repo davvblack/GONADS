@@ -126,3 +126,32 @@ function set_named_stylesheet(id, css)
     }
     head.appendChild(style);
 };
+
+function bl_from_xy(x, y)
+{
+    var bottom = (y - x) * GONADS.Core.get('tile_y_delta');
+    var left = (x + y) * GONADS.Core.get('tile_x_delta');
+    return {bottom:bottom,left:left};
+}
+
+function delta_from_cardinal(cardinal)
+{
+    switch(cardinal)
+    {
+        case "N":
+            return {x:0,y:1};
+            break;
+        case "S":
+            return {x:0,y:-1};
+            break;
+        case "E":
+            return {x:1,y:0};
+            break;
+        case "W":
+            return {x:-1,y:0};
+            break;
+        default:
+            console.log('iunvalid cardina;');
+            console.log(cardinal);
+    }
+}

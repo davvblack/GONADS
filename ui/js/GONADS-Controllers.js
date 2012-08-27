@@ -6,7 +6,12 @@ GONADS.Lobby = Em.Object.create({
     })
 
 GONADS.Robot = Em.Object.extend({
-
+    init: function () {
+        this.set('facing',GONADS.map.coord(this.get('x'),this.get('y')).get('path'));
+        this.set('speed',1000);
+        this.set('action','moving');
+        this.set('action_timing',1000);
+    }
 })
 
 GONADS.Game = Em.Object.extend({
@@ -15,22 +20,48 @@ GONADS.Game = Em.Object.extend({
         GONADS.tile_view.appendTo('#main');
         GONADS.map = GONADS.Map.create();
         GONADS.map.fill_clean(0,0,15,15,GONADS.TILES.get('FLAT'), true);
-        GONADS.updater = setInterval(function(){GONADS.game.update_state},100);
+        GONADS.updater = setInterval(function(){GONADS.game.update_state()},100);
+        //GONADS.updater.start();
         GONADS.nests = [GONADS.Nest.create({x:12,y:9})];
-        GONADS.entities = [];
+        GONADS.entities = Ember.ArrayController.create({content:[]});
     },
 
     update_state: function() {
+        //console.log('updating state');
         for(var i=0; i<GONADS.nests.length;i++)
         {
-            GONADS.nests[i].time_left -=100;
+            GONADS.nests[i].time_left = GONADS.nests[i].get('time_left') - 50;
             if(GONADS.nests[i].time_left < 0)
             {
+                //console.log('creating robot');
                 GONADS.nests[i].time_left = 1000;
-                GONADS.entities.push(GONADS.Robot.create({
+                GONADS.entities.pushObject(GONADS.Robot.create({
                     x:GONADS.nests[i].x,
                     y:GONADS.nests[i].y,
                 }));
+            }
+        }
+        var e_arr  = GONADS.entities.toArray();
+        for(var i=0; i<e_arr.length; i++)
+        {
+            e_arr[i].action_timing = e_arr[i].get('action_timing') - 100;
+            if(e_arr[i].action_timing<0)
+            {
+                e_arr[i].action_timing =  e_arr[i].get('speed');
+                switch(e_arr[i].get('action'))
+                {
+                    case "moving":
+                        //console.log('moving');
+                        var new_facing = GONADS.map.coord(e_arr[i].get('x'), e_arr[i].get('y')).get('path');
+                        //console.log(new_facing);
+                        delta = delta_from_cardinal(new_facing);
+                        GONADS.entities.objectAt(i).set('x', e_arr[i].get('x')+delta.x);
+                        GONADS.entities.objectAt(i).set('y', e_arr[i].get('y')+delta.y);
+                        GONADS.entities.objectAt(i).set('facing',new_facing);
+                        break;
+
+                }
+
             }
         }
     },
@@ -53,8 +84,13 @@ GONADS.Tile = Em.Object.extend({
         ////console.log(this);
     },
     set_tile: function(tile_type){
+        //this.steps -=
         GONADS.map.dirty_tile(this);
+        GONADS.map.dirty_pointing_at(this);
+        this.steps = INFINITY;
         this.set_tile_clean(tile_type);
+
+
     },
     set_tile_clean: function(tile_type){
         this.set('tile_type', tile_type);
@@ -137,7 +173,7 @@ GONADS.Map = Em.Object.extend({
             {
                 //console.log('whoa');
             }
-            if((min_neighbor.val + working_tile.tile_type.pathing < working_tile.steps) || !isset(working_tile.steps))
+            if(!working_tile.tile_type.goal && ((min_neighbor.val + working_tile.tile_type.pathing != working_tile.steps) || !isset(working_tile.steps)))
             {
                 old_steps = working_tile.steps;
                 working_tile.steps = min_neighbor.val + working_tile.tile_type.pathing;
@@ -146,7 +182,7 @@ GONADS.Map = Em.Object.extend({
                     console.log('would dirty pointing at');
                     console.log(working_tile);
                     //GONADS.map.
-                    //dirty_pointing_at_me(working_tile);
+                    GONADS.map.dirty_pointing_at(working_tile);
                 }
                 //console.log(working_tile.steps);
                 for(i in min_neighbor.key)
@@ -198,6 +234,31 @@ GONADS.Map = Em.Object.extend({
         {
             GONADS.map.dirty.push(tile);
         }
+    },
+    get_neighbors: function (x,y) {
+        return {
+            N: this.coord(x,y+1),
+            S: this.coord(x,y-1),
+            E: this.coord(x+1,y),
+            W: this.coord(x-1,y),
+        }
+    },
+    dirty_pointing_at: function (tile) {
+        //console.log('dirtying point');
+        //console.log(tile);
+        var neighbors = this.get_neighbors(tile.x, tile.y);
+        var opposites = {N:'S',S:'N',E:'W',W:'E'};
+
+        for(i in neighbors)
+        {
+            //console.log(neighbors[i]);
+            //console.log(opposites[i]);
+            if(neighbors[i] && neighbors[i].path == opposites[i])
+            {
+                //console.log('dirtying '+i);
+                this.dirty_tile(neighbors[i]);
+            }
+        }
     }
 
 });
@@ -237,6 +298,8 @@ GONADS.GameState = GONADS.Status.create({
                 GONADS.game = GONADS.Game.create();
                 GONADS.map_view = GONADS.MapView.create();
                 GONADS.map_view.appendTo("#main");
+                GONADS.entity_view = GONADS.EntityView.create();
+                GONADS.entity_view.appendTo("#main");
 
             },
             exit: function () {
