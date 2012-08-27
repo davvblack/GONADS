@@ -40,6 +40,15 @@ GONADS.Game = Em.Object.extend({
     },
 
     update_state: function() {
+        if(this.tock)
+        {
+            this.tock = false;
+            $('body').removeClass('tock');
+        }
+        else
+        {
+            $('body').addClass('tock');
+        }
         //console.log('updating state');
         for(var i=0; i<GONADS.nests.length;i++)
         {

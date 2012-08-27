@@ -1,0 +1,349 @@
+html,
+body {
+  background: #716f79;
+}
+body {
+  padding: 50px;
+}
+.weapon-slot-front-front .weapon-slot-graphic,
+.robot .chassis-kiosk .weapon-slot-1 .weapon-slot-graphic,
+.robot .chassis-tall .weapon-slot-1 .weapon-slot-graphic,
+.robot .chassis-tall .weapon-slot-2 .weapon-slot-graphic {
+  background-position: 0px 0px;
+}
+.weapon-slot-front-front .weapon,
+.robot .chassis-kiosk .weapon-slot-1 .weapon,
+.robot .chassis-tall .weapon-slot-1 .weapon,
+.robot .chassis-tall .weapon-slot-2 .weapon {
+  left: -28px;
+  bottom: -25px;
+  display: block;
+}
+.weapon-slot-top-front .weapon-slot-graphic,
+.robot .chassis-sweeper .weapon-slot-1 .weapon-slot-graphic,
+.robot .chassis-long .weapon-slot-1 .weapon-slot-graphic,
+.robot .chassis-long .weapon-slot-2 .weapon-slot-graphic {
+  background-position: -50px 0px;
+}
+.weapon-slot-top-front .weapon,
+.robot .chassis-sweeper .weapon-slot-1 .weapon,
+.robot .chassis-long .weapon-slot-1 .weapon,
+.robot .chassis-long .weapon-slot-2 .weapon {
+  left: -28px;
+  bottom: -19px;
+  display: block;
+}
+.weapon-slot-front-back .weapon-slot-graphic {
+  background-position: 0px -50px;
+}
+.weapon-slot-front-back .weapon {
+  left: -17px;
+  bottom: -31px;
+  display: block;
+}
+.weapon-slot-top-back .weapon-slot-graphic {
+  background-position: -50px -50px;
+}
+.weapon-slot-top-back .weapon {
+  left: -17px;
+  bottom: -31px;
+  display: block;
+}
+.weapon-slot-side-front .weapon-slot-graphic,
+.robot .chassis-wedge .weapon-slot-1 .weapon-slot-graphic {
+  background-position: -100px 0px;
+}
+.weapon-slot-side-front .weapon,
+.robot .chassis-wedge .weapon-slot-1 .weapon {
+  left: -17px;
+  bottom: -31px;
+  display: block;
+}
+.weapon-slot-side-back .weapon-slot-graphic,
+.robot .chassis-wedge .weapon-slot-3 .weapon-slot-graphic {
+  background-position: -100px -50px;
+}
+.weapon-slot-side-back .weapon,
+.robot .chassis-wedge .weapon-slot-3 .weapon {
+  left: -32px;
+  bottom: -21px;
+  display: block;
+}
+.robot {
+  position: relative;
+}
+.robot .base {
+  background-color: transparent;
+  background-image: url("../img/spritesheet-parts.png");
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+.robot .chassis {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
+.robot .chassis .chassis-graphic {
+  background-color: transparent;
+  background-image: url("../img/spritesheet-chassis.png");
+  width: 100px;
+  height: 100px;
+}
+.robot .weapon-slot {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+}
+.robot .weapon-slot .weapon-slot-graphic {
+  position: absolute;
+  background-color: transparent;
+  background-image: url("../img/spritesheet-parts.png");
+  width: 50px;
+  height: 50px;
+}
+.robot .weapon-slot .weapon-slot-graphic.empty {
+  display: none;
+}
+.robot .weapon {
+  width: 50px;
+  height: 100px;
+  position: absolute;
+  background-image: url("../img/spritesheet-parts.png");
+}
+.south .base-leg,
+.north .base-leg {
+  background-position: -250px -300px;
+}
+.south .base-leg .chassis,
+.north .base-leg .chassis {
+  bottom: 30px;
+  left: 5px;
+}
+.south .base-tread,
+.north .base-tread {
+  background-position: -250px -400px;
+}
+.south .base-tread .chassis,
+.north .base-tread .chassis {
+  bottom: 23px;
+  left: 4px;
+}
+.south .base-wheel,
+.north .base-wheel {
+  background-position: -250px -500px;
+}
+.south .base-wheel .chassis,
+.north .base-wheel .chassis {
+  bottom: 36px;
+  left: 0px;
+}
+.south .base-hover,
+.north .base-hover {
+  background-position: -250px -600px;
+}
+.south .base-hover .chassis,
+.north .base-hover .chassis {
+  bottom: 26px;
+  left: 2px;
+}
+.west .base-leg,
+.east .base-leg {
+  background-position: -450px -300px;
+}
+.west .base-leg .chassis,
+.east .base-leg .chassis {
+  bottom: 30px;
+  left: 5px;
+}
+.west .base-tread,
+.east .base-tread {
+  background-position: -450px -400px;
+}
+.west .base-tread .chassis,
+.east .base-tread .chassis {
+  bottom: 25px;
+  left: -1px;
+}
+.west .base-wheel,
+.east .base-wheel {
+  background-position: -450px -500px;
+}
+.west .base-wheel .chassis,
+.east .base-wheel .chassis {
+  bottom: 36px;
+  left: 0px;
+}
+.west .base-hover,
+.east .base-hover {
+  background-position: -450px -600px;
+}
+.west .base-hover .chassis,
+.east .base-hover .chassis {
+  bottom: 26px;
+  left: 2px;
+}
+.tock .south .base-leg,
+.tock .north .base-leg {
+  background-position: -350px -300px;
+}
+.tock .south .base-leg .chassis,
+.tock .north .base-leg .chassis {
+  bottom: 30px;
+  left: 5px;
+}
+.tock .south .base-tread,
+.tock .north .base-tread {
+  background-position: -350px -400px;
+}
+.tock .south .base-tread .chassis,
+.tock .north .base-tread .chassis {
+  bottom: 23px;
+  left: 4px;
+}
+.tock .south .base-wheel,
+.tock .north .base-wheel {
+  background-position: -350px -500px;
+}
+.tock .south .base-wheel .chassis,
+.tock .north .base-wheel .chassis {
+  bottom: 36px;
+  left: 0px;
+}
+.tock .south .base-hover,
+.tock .north .base-hover {
+  background-position: -350px -600px;
+}
+.tock .south .base-hover .chassis,
+.tock .north .base-hover .chassis {
+  bottom: 26px;
+  left: 2px;
+}
+.tock .west .base-leg,
+.tock .east .base-leg {
+  background-position: -550px -300px;
+}
+.tock .west .base-leg .chassis,
+.tock .east .base-leg .chassis {
+  bottom: 30px;
+  left: 5px;
+}
+.tock .west .base-tread,
+.tock .east .base-tread {
+  background-position: -550px -400px;
+}
+.tock .west .base-tread .chassis,
+.tock .east .base-tread .chassis {
+  bottom: 23px;
+  left: 4px;
+}
+.tock .west .base-wheel,
+.tock .east .base-wheel {
+  background-position: -550px -500px;
+}
+.tock .west .base-wheel .chassis,
+.tock .east .base-wheel .chassis {
+  bottom: 36px;
+  left: 0px;
+}
+.tock .west .base-hover,
+.tock .east .base-hover {
+  background-position: -550px -600px;
+}
+.tock .west .base-hover .chassis,
+.tock .east .base-hover .chassis {
+  bottom: 26px;
+  left: 2px;
+}
+.weapon-slot {
+  display: none;
+}
+.weapon-axe {
+  background-position: -250px 0px;
+}
+.weapon-hammer {
+  background-position: -250px -100px;
+}
+.weapon-spike {
+  background-position: -250px -200px;
+}
+.weapon-saw {
+  background-position: -650px 0px;
+}
+.weapon-jackhammer {
+  background-position: -650px -100px;
+}
+.weapon-welder {
+  background-position: -650px -200px;
+}
+.west linear_chassis .chassis-graphic,
+.south linear_chassis .chassis-graphic {
+  position: relative;
+}
+mirrored_chassis .chassis-graphic {
+  position: relative;
+}
+.robot .chassis-kiosk .chassis-graphic {
+  background-position: 0px 0px;
+}
+.robot .chassis-kiosk .weapon-slot-1 {
+  left: 11px;
+  bottom: 28px;
+  display: block;
+}
+.robot .chassis-sweeper {
+  left: -5px;
+}
+.robot .chassis-sweeper .chassis-graphic {
+  background-position: -100px 0px;
+}
+.robot .chassis-sweeper .weapon-slot-1 {
+  left: 26px;
+  bottom: 27px;
+  display: block;
+}
+.robot .base-tread > .chassis-sweeper {
+  bottom: 19px;
+}
+.robot .chassis-tall .chassis-graphic {
+  background-position: -200px 0px;
+}
+.robot .chassis-tall .weapon-slot-1 {
+  left: 17px;
+  bottom: 44px;
+  display: block;
+}
+.robot .chassis-tall .weapon-slot-2 {
+  left: 11px;
+  bottom: 21px;
+  display: block;
+}
+.robot .chassis-long .chassis-graphic {
+  background-position: -300px 0px;
+}
+.robot .chassis-long .weapon-slot-1 {
+  left: 11px;
+  bottom: 17px;
+  display: block;
+}
+.robot .chassis-long .weapon-slot-2 {
+  left: 29px;
+  bottom: 33px;
+  display: block;
+}
+.robot .chassis-wedge .chassis-graphic {
+  background-position: -400px 0px;
+}
+.robot .chassis-wedge .chassis-graphic {
+  position: relative;
+}
+.robot .chassis-wedge .weapon-slot-1 {
+  left: 42;
+  bottom: 26px;
+  display: block;
+}
+.robot .chassis-wedge .weapon-slot-3 {
+  left: 17px;
+  bottom: 36px;
+  display: block;
+}
