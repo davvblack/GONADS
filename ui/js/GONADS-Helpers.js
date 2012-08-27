@@ -155,3 +155,7 @@ function delta_from_cardinal(cardinal)
             console.log(cardinal);
     }
 }
+
+function pick(from_array){
+    return from_array[Math.floor(Math.random()*from_array.length)];
+}

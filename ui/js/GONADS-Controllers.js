@@ -11,6 +11,14 @@ GONADS.Robot = Em.Object.extend({
         this.set('speed',1000);
         this.set('action','moving');
         this.set('action_timing',1000);
+
+
+
+        this.set('configuration',{
+
+
+
+        })
     }
     ,
     facing:'N',
@@ -23,11 +31,11 @@ GONADS.Game = Em.Object.extend({
         GONADS.tools_view = GONADS.ButtonsPanel.create();
         GONADS.tools_view.appendTo('#main');
         GONADS.map = GONADS.Map.create();
-        GONADS.map.fill_clean(0,0,15,15,GONADS.TILES.get('FLAT'), true);
+        GONADS.map.fill_clean(0,0,16,23,GONADS.TILES.get('FLAT'), true);
         GONADS.updater = setInterval(function(){GONADS.game.update_state()},100);
         GONADS.animator = setInterval(function(){GONADS.game.update_state()},300);
         //GONADS.updater.start();
-        GONADS.nests = [GONADS.Nest.create({x:12,y:9})];
+        //GONADS.nests = [GONADS.Nest.create({x:12,y:9})];
         GONADS.entities = Ember.ArrayController.create({content:[]});
         this.set('brush',GONADS.TILES.get('WOOD'));
     },
@@ -63,7 +71,7 @@ GONADS.Game = Em.Object.extend({
             if(GONADS.nests[i].time_left < 0)
             {
                 //console.log('creating robot');
-                GONADS.nests[i].time_left = 1000;
+                GONADS.nests[i].time_left = 4000;
                 GONADS.entities.pushObject(GONADS.Robot.create({
                     x:GONADS.nests[i].x,
                     y:GONADS.nests[i].y,
@@ -187,6 +195,8 @@ GONADS.Map = Em.Object.extend({
     },
     spot: function(x,y,tile)
     {
+        console.log(x);
+        console.log(y);
         this.coord(x,y).set_tile(tile);
     },
     refresh_pathing: function()

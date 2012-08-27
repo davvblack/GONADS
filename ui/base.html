@@ -4,7 +4,6 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="robot-template">
-test {{facing}} {{content.facing}}
 <div class="base base-leg">
     <div class="chassis chassis-wedge">
       <div class="weapon-slot weapon-slot-5 filled">
@@ -29,7 +28,7 @@ test {{facing}} {{content.facing}}
         <div class="weapon weapon-welder"></div>
       </div>
     </div>
-  </div>
+</div>
 </script>
 
 <!--script type="text/x-handlebars" data-template-name="map-view">
@@ -71,13 +70,21 @@ test {{facing}} {{content.facing}}
 body{
     height: 0 !important;
 }
-#map{
-    position: relative;
-    top:200px;
-    right:0px;
-    -webkit-transform: scale(0.5);
-    -moz-transform: scale(0.3);
-    transform: scale(0.1);
+#main{
+    position:absolute;
+    top:600px;
+    left:0px;
+    /*General*/
+    transform: scale(0.7);
+    /*Firefox*/
+    -moz-transform: scale(0.7);
+    /*Microsoft Internet Explorer*/
+    -ms-transform: scale(0.7);
+    /*Chrome, Safari*/
+    -webkit-transform: scale(0.7);
+    /*Opera*/
+    -o-transform: scale(0.7);
+
 }
 </style>
 
