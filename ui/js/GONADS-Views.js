@@ -100,12 +100,12 @@ GONADS.EntityArt = GONADS.View.extend({
           html+='<div class="chassis-graphic"></div>';
 
           if(tools[1])html+='<div class="weapon-slot weapon-slot-2 filled">\
-            <div class="weapon weapon-'+tools[1]+'"></div>\
             <div class="weapon-slot-graphic"></div>\
+            <div class="weapon weapon-'+tools[1]+'"></div>\
           </div>';
           if(tools[0])html+='<div class="weapon-slot weapon-slot-1 filled">\
-            <div class="weapon weapon-'+tools[0]+'"></div>\
             <div class="weapon-slot-graphic"></div>\
+            <div class="weapon weapon-'+tools[0]+'"></div>\
           </div>';
 
         html+='</div>\
