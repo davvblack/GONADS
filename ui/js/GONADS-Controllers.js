@@ -5,17 +5,35 @@ GONADS.Lobby = Em.Object.create({
 
     })
 
+GONADS.Robot = Em.Object.extend({
+
+})
+
 GONADS.Game = Em.Object.extend({
     init: function() {
         GONADS.tile_view = GONADS.TilesView.create();
         GONADS.tile_view.appendTo('#main');
         GONADS.map = GONADS.Map.create();
-        GONADS.map.fill(0,0,15,15,GONADS.TILES.get('FLAT'));
-
-
-
+        GONADS.map.fill_clean(0,0,15,15,GONADS.TILES.get('FLAT'), true);
+        GONADS.updater = setInterval(function(){GONADS.game.update_state},100);
+        GONADS.nests = [GONADS.Nest.create({x:12,y:9})];
+        GONADS.entities = [];
     },
 
+    update_state: function() {
+        for(var i=0; i<GONADS.nests.length;i++)
+        {
+            GONADS.nests[i].time_left -=100;
+            if(GONADS.nests[i].time_left < 0)
+            {
+                GONADS.nests[i].time_left = 1000;
+                GONADS.entities.push(GONADS.Robot.create({
+                    x:GONADS.nests[i].x,
+                    y:GONADS.nests[i].y,
+                }));
+            }
+        }
+    },
 
     destroy: function() {
         delete GONADS.map;
@@ -23,17 +41,25 @@ GONADS.Game = Em.Object.extend({
     }
 });
 
+GONADS.Nest = Em.Object.extend({
+    time_left: 1000
+})
+
 GONADS.Tile = Em.Object.extend({
     init: function(){
         //GONADS.map.viewer.content.pushObject(this)
         GONADS.tile_view.content.pushObject(this);
         this.set('view_index', GONADS.tile_view.content.length-1);
-        //console.log(this);
+        ////console.log(this);
     },
     set_tile: function(tile_type){
+        GONADS.map.dirty_tile(this);
+        this.set_tile_clean(tile_type);
+    },
+    set_tile_clean: function(tile_type){
         this.set('tile_type', tile_type);
-        console.log(this.get('view_index'));
-        console.log(tile_type);
+        ////console.log(this.get('view_index'));
+        ////console.log(tile_type);
         GONADS.tile_view.content.objectAt(this.get('view_index')).set('tile_type',tile_type);
     },
     get_tile: function(){
@@ -45,16 +71,18 @@ GONADS.Map = Em.Object.extend({
     init: function() {
         this.content = {};
         //this.viewer = GONADS.TilesViewer.create();
+        this.dirty = [];
     },
-    coord: function(x,y) {
+    coord: function(x,y,create) {
         var to_return;
-        if(isset(this.content[coord_name(x,y)]))
+        if(create)
         {
-            to_return = this.content[coord_name(x,y)];
+            to_return = this.content[coord_name(x,y)] = GONADS.Tile.create({x:x,y:y})
+
         }
         else
         {
-            to_return = this.content[coord_name(x,y)] = GONADS.Tile.create({x:x,y:y})
+            to_return = this.content[coord_name(x,y)];
         }
         return to_return;
     },
@@ -64,6 +92,15 @@ GONADS.Map = Em.Object.extend({
             for( var j = y1; j <= y2; j++)
             {
                 this.coord(i,j).set_tile(tile)
+            }
+        }
+    },
+    fill_clean: function(x1, y1, x2, y2, tile) {
+        for( var i = x1; i <= x2; i++)
+        {
+            for( var j = y1; j <= y2; j++)
+            {
+                this.coord(i,j, true).set_tile_clean(tile)
             }
         }
     },
@@ -85,8 +122,83 @@ GONADS.Map = Em.Object.extend({
     },
     refresh_pathing: function()
     {
-
+        var working_tile;
+        var t=0;
+        while((working_tile = GONADS.map.dirty.shift()) && t++ < 50000)
+        {
+            var neighbor_steps, min_neighbor;
+            neighbor_steps = this.get_neighbors(working_tile.x,working_tile.y) ;
+            //console.log(neighbor_steps);
+            //console.log(working_tile);
+            min_neighbor = min_object(neighbor_steps,'steps');
+            //console.log(min_neighbor);
+            directions = "NSEW";
+            if(min_neighbor.val != INFINITY)
+            {
+                //console.log('whoa');
+            }
+            if((min_neighbor.val + working_tile.tile_type.pathing < working_tile.steps) || !isset(working_tile.steps))
+            {
+                old_steps = working_tile.steps;
+                working_tile.steps = min_neighbor.val + working_tile.tile_type.pathing;
+                if(old_steps < working_tile.steps)
+                {
+                    console.log('would dirty pointing at');
+                    console.log(working_tile);
+                    //GONADS.map.
+                    //dirty_pointing_at_me(working_tile);
+                }
+                //console.log(working_tile.steps);
+                for(i in min_neighbor.key)
+                {
+                    directions = directions.replace(min_neighbor.key[i],'');
+                }
+                if(working_tile.steps != INFINITY)
+                {
+                    //console.log('wants to dirty neighbors');
+                    //console.log(directions);
+                    this.dirty_directions(working_tile,directions);
+                }
+                //console.log(directions);
+                var new_direction = min_neighbor.key[Math.floor(Math.random() * min_neighbor.key.length)];
+                //console.log(new_direction);
+                working_tile.path = new_direction;
+            }
+            //console.log(neighbor_steps);
+            for(i in neighbor_steps)
+            {
+                if(neighbor_steps[i] && !isset(neighbor_steps[i]['steps']))
+                {
+                    //console.log('would dirty');
+                    //console.log(neighbor_steps[i]);
+                    neighbor_steps[i]['steps'] = INFINITY;
+                    GONADS.map.dirty_tile(neighbor_steps[i]);
+                }
+            }
+        }
     },
+    get_neighbors: function (x,y) {
+        return {
+            N: this.coord(x,y+1),
+            S: this.coord(x,y-1),
+            E: this.coord(x+1,y),
+            W: this.coord(x-1,y),
+        }
+    },
+    dirty_directions: function(from_tile, directions) {
+        var x = from_tile.x;
+        var y = from_tile.y;
+        if(directions.indexOf('N') != -1 && this.coord(x,y+1)) this.dirty_tile(this.coord(x,y+1));
+        if(directions.indexOf('S') != -1 && this.coord(x,y-1)) this.dirty_tile(this.coord(x,y-1));
+        if(directions.indexOf('E') != -1 && this.coord(x+1,y)) this.dirty_tile(this.coord(x+1,y));
+        if(directions.indexOf('W') != -1 && this.coord(x-1,y)) this.dirty_tile(this.coord(x-1,y));
+    },
+    dirty_tile: function(tile){
+        if(!containsObject(GONADS.map.dirty, tile))
+        {
+            GONADS.map.dirty.push(tile);
+        }
+    }
 
 });
 

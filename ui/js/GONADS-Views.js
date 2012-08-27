@@ -36,18 +36,15 @@ GONADS.TileArt = GONADS.View.extend({
         //console.log(this.get('content.player._id'));
         //SDD.Quickdraft.un_draft_player(this.get('content.player._id'));
     },
+
     tile_bkg_class: function () {
         return String(this.get('content.tile_type.img_class')) + '1';
     }.property('content.tile_type.img_class'),
 
-    flat1: function () {
-        return String(this.get('content.tile_type.img_class')) =='flat';
-        //return false;
-    }.property('content.tile_type.img_class'),
-
-    impassable1: function () {
-        return String(this.get('content.tile_type.img_class')) =='impassable';
-    }.property('content.tile_type.img_class'),
+    count_steps: function () {
+        console.log(this.get('content.steps'));
+        console.log(this.get('content.path'));
+    },
 
     classNameBindings:['tile_bkg_class'],
     classNames: ['tile'],
@@ -84,6 +81,11 @@ GONADS.MapView = GONADS.View.extend({
         GONADS.map.rect(1,7,6,11,GONADS.TILES.get('IMPASSABLE'));
         GONADS.map.spot(6,9,GONADS.TILES.get('FLAT'));
         GONADS.map.spot(2,9,GONADS.TILES.get('GOAL'));
+
+        var stop = GONADS.map.coord(2,9);
+        stop.steps = 0;
+        GONADS.map.dirty = [stop];
+        GONADS.map.refresh_pathing();
 
         //GONADS.map.spot(2,3,GONADS.TILES.get('IMPASSABLE'));
     }

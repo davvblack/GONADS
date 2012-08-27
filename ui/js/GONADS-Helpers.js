@@ -22,32 +22,40 @@ if (typeof console == "undefined") {
 function min_object(object, key)
 {
     var min_val = INFINITY;
-    var min_key = false;
+    var min_key = [];
     for(i in object)
     {
         if(object.hasOwnProperty(i))
         {
             if(key)
             {
-                if (object[i][key]<min_val)
+                if (object[i] && object[i][key]<min_val)
                 {
-                    min_key = i;
+                    min_key = [i];
                     min_val = object[i][key];
+                }
+                else if(object[i] && object[i][key]==min_val)
+                {
+                    min_key.push(i);
                 }
             }
             else
             {
                 if (object[i]<min_val)
                 {
-                    min_key = i;
+                    min_key = [i];
                     min_val = object[i];
-
+                }
+                else if(object[i]==min_val)
+                {
+                    min_key.push(i);
                 }
             }
         }
     }
     return {val: min_val, key: min_key};
 }
+
 
 function max_object(object, key)
 {
@@ -59,24 +67,42 @@ function max_object(object, key)
         {
             if(key)
             {
-                if (object[i][key]>max_val)
+                if (object[i] && object[i][key]>max_val)
                 {
-                    max_key = i;
+                    max_key = [i];
                     max_val = object[i][key];
+                }
+                else if(object[i] && object[i][key]==max_val)
+                {
+                    max_key.push(i);
                 }
             }
             else
             {
                 if (object[i]>max_val)
                 {
-                    max_key = i;
+                    max_key = [i];
                     max_val = object[i];
-
+                }
+                else if(object[i]==max_val)
+                {
+                    max_key.push(i);
                 }
             }
         }
     }
     return {val: max_val, key: max_key};
+}
+
+function containsObject(list, obj) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+        if (list[i] === obj) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 

@@ -9,7 +9,7 @@ GONADS.TILES = EOC({
     STONE:      EOC({img_class:"stone",      variants:1, id:3, pathing:8}),
     METAL:      EOC({img_class:"metal",      variants:1, id:4, pathing:10}),
     NEST:       EOC({img_class:"nest",      variants:1, id:5, pathing:INFINITY}),
-    GOAL:       EOC({img_class:"goal",      variants:1, id:6, pathing:INFINITY}),
+    GOAL:       EOC({img_class:"goal",      variants:1, id:6, pathing:0}),
 });
 
 /*

@@ -10,18 +10,25 @@
 </script-->
 <style type="text/css">
 .tile1 { }
-.tile{margin-left:-40px; width:140px; height: 80px; position: absolute;}
+.tile{margin-left:-40px; width:140px; height: 40px !important; position: absolute;}
 
 .flat1{background: url('img/floor_tile.png') }
 .impassable1{background: url('img/impassable_tile.png'); height: 160px;}
 .nest1{background: url('img/nest_tile.png'); height: 160px;}
 .goal1{background: url('img/goal_tile.png'); height: 160px;}
 
+body{
+    height: 0 !important;
+}
+#map{
+    position: relative;
+    top:200px;
+    right:0px;
+}
 </style>
 
 <script type="text/x-handlebars" data-template-name="tile">
-
-
+<a {{action count_steps}}>steps</a>
 </script>
 
 <script type="text/x-handlebars" data-template-name="map-view">
