@@ -22,7 +22,13 @@
 .impassable1{background: url('img/impassable_tile.png'); height: 119px;}
 .nest1{background: url('img/nest_tile.png'); height: 160px;}
 .goal1{background: url('img/goal_tile.png'); height: 160px;}
-
+.reticule{ width: 50%; left:25%; height:40px; bottom:20px; position:absolute; z-index:9999;}
+.reticule:hover{
+    background: url('img/good_tile.png');
+    width:140px; height: 80px;
+    left:0;
+    bottom:0;
+}
 body{
     height: 0 !important;
 }
@@ -35,6 +41,9 @@ body{
 
 <script type="text/x-handlebars" data-template-name="tile">
 <!--<a -{action count_steps}}>.</a>-->
+
+<a {{action place}} class='reticule'></a>
+
 </script>
 
 <script type="text/x-handlebars" data-template-name="map-view">
