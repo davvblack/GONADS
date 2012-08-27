@@ -22,12 +22,20 @@
 .impassable1{background: url('img/impassable_tile.png'); height: 119px;}
 .nest1{background: url('img/nest_tile.png'); height: 160px;}
 .goal1{background: url('img/goal_tile.png'); height: 160px;}
-.reticule{ width: 50%; left:25%; height:40px; bottom:20px; position:absolute; z-index:9999;}
+.reticule{ width: 70%; left:15%; height:60px; bottom:20px; position:absolute; z-index:9999; }
 .reticule:hover{
     background: url('img/good_tile.png');
     width:140px; height: 80px;
     left:0;
     bottom:0;
+}
+.impassable1 .reticule:hover{
+    /*background: url('img/bad_tile.png');
+    width:140px; height: 80px;
+    left:0;
+    bottom:0;
+    */
+    background:none;
 }
 body{
     height: 0 !important;
@@ -36,6 +44,9 @@ body{
     position: relative;
     top:200px;
     right:0px;
+    -webkit-transform: scale(0.5);
+    -moz-transform: scale(0.3);
+    transform: scale(0.1);
 }
 </style>
 
