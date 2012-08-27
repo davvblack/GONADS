@@ -18,12 +18,25 @@ GONADS.Game = Em.Object.extend({
     init: function() {
         GONADS.tile_view = GONADS.TilesView.create();
         GONADS.tile_view.appendTo('#main');
+        GONADS.tools_view = GONADS.ButtonsPanel.create();
+        GONADS.tools_view.appendTo('#main');
         GONADS.map = GONADS.Map.create();
         GONADS.map.fill_clean(0,0,15,15,GONADS.TILES.get('FLAT'), true);
         GONADS.updater = setInterval(function(){GONADS.game.update_state()},100);
         //GONADS.updater.start();
         GONADS.nests = [GONADS.Nest.create({x:12,y:9})];
         GONADS.entities = Ember.ArrayController.create({content:[]});
+        this.set('brush',GONADS.TILES.get('WOOD'));
+    },
+
+    set_brush: function(brush) {
+        this.set('brush', GONADS.TILES.get(brush));
+    },
+
+    place_tile: function(x,y) {
+        GONADS.map.spot(x,y,GONADS.game.get('brush'));
+        GONADS.map.clear_pathing();
+        GONADS.map.refresh_pathing();
     },
 
     update_state: function() {

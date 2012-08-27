@@ -22,6 +22,12 @@
 .impassable1{background: url('img/impassable_tile.png'); height: 119px;}
 .nest1{background: url('img/nest_tile.png'); height: 160px;}
 .goal1{background: url('img/goal_tile.png'); height: 160px;}
+.wood1{background: url('img/wood_tile.png'); height: 160px;}
+.stone1{background: url('img/stone_tile.png'); height: 160px;}
+.metal1{background: url('img/metal_tile.png'); height: 160px;}
+
+
+
 .reticule{ width: 70%; left:15%; height:60px; bottom:20px; position:absolute; z-index:9999; }
 .reticule:hover{
     background: url('img/good_tile.png');
@@ -57,12 +63,21 @@ body{
 
 </script>
 
+<script type="text/x-handlebars" data-template-name="buttons-panel">
+<a {{action pickWood}}>Wood</a>
+<a {{action pickStone}}>Stone</a>
+<a {{action pickMetal}}>Metal</a>
+</script>
+
+
 <script type="text/x-handlebars" data-template-name="map-view">
 <!--{view GONADS.TilesView}-->
 map
 <div id="map">
 
 </div>
+
+
 </script>
 
 <script src="js/libs/jquery.js"></script>

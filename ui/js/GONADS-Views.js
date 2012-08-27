@@ -51,9 +51,8 @@ GONADS.TileArt = GONADS.View.extend({
     classNames: ['tile'],
 
     place: function () {
-        GONADS.map.spot(this.get('content.x'),this.get('content.y'),GONADS.TILES.get('IMPASSABLE'));
-        GONADS.map.clear_pathing();
-        GONADS.map.refresh_pathing();
+        GONADS.game.place_tile(this.get('content.x'),this.get('content.y'));
+
     }
 
 })
@@ -125,4 +124,28 @@ GONADS.MapView = GONADS.View.extend({
 
         //GONADS.map.spot(2,3,GONADS.TILES.get('IMPASSABLE'));
     }
+})
+
+GONADS.ButtonsPanel = GONADS.View.extend({
+    templateName: 'buttons-panel',
+    pickWood: function(){
+        this.set('wood', true);
+        this.set('stone', false);
+        this.set('metal',false);
+        GONADS.game.set_brush('WOOD');
+    },
+    pickStone: function(){
+        this.set('wood', false);
+        this.set('stone', true);
+        this.set('metal',false);
+        GONADS.game.set_brush('STONE');
+    },
+    pickMetal: function(){
+        this.set('wood', false);
+        this.set('stone', false);
+        this.set('metal',true);
+        GONADS.game.set_brush('METAL');
+    },
+    classNames: ['tools'],
+    classNamesBindings: ['wood','metal','stone']
 })
