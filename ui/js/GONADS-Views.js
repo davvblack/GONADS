@@ -69,7 +69,8 @@ GONADS.TilesList = Ember.ArrayController.extend({
 GONADS.TilesView = Ember.CollectionView.extend({
     tagName: 'div',
     content: [],
-    itemViewClass: GONADS.TileArt.extend()
+    itemViewClass: GONADS.TileArt.extend(),
+    classNames: ['map']
 })
 
 GONADS.EntityArt = GONADS.View.extend({
@@ -90,9 +91,10 @@ GONADS.EntityArt = GONADS.View.extend({
             //console.log(bl);
             var bl_next = bl_from_xy(this.get('content.x')+coord_delta.x, this.get('content.y')+coord_delta.y);
             //css({left:bl.left+30+'px',bottom:bl.bottom+30+'px'})
-            this.$().css('z-index',-Math.min(bl.bottom,bl_next.bottom)-1 + 1000);
+            //-Math.min(bl.bottom,bl_next.bottom)
+            this.$().css('z-index',-Math.min(bl.bottom,bl_next.bottom)+60 + 1000);
             //console.log(bl.left, bl_next.left);
-            this.$().animate({left:bl_next.left+30+'px',bottom:bl_next.bottom+30+'px'}, this.get('content.speed')-300);
+            this.$().animate({left:bl_next.left+30+'px',bottom:bl_next.bottom+50+'px'}, this.get('content.speed')-300);
             var direction_names = {N:'north',S:'south',E:'east',W:'west'};
             this.set('cardinality', direction_names[this.get('content.facing')]);
 
@@ -112,7 +114,8 @@ GONADS.EntityArt = GONADS.View.extend({
 GONADS.EntityView = Ember.CollectionView.extend({
     tagName: 'div',
     contentBinding: "GONADS.entities",
-    itemViewClass: GONADS.EntityArt.extend()
+    itemViewClass: GONADS.EntityArt.extend(),
+    classNames: ['map']
 })
 
 
@@ -179,7 +182,8 @@ GONADS.MapView = GONADS.View.extend({
         GONADS.map.refresh_pathing();
 
         //GONADS.map.spot(2,3,GONADS.TILES.get('IMPASSABLE'));
-    }
+    },
+    //classNames: ['map']
 })
 
 GONADS.ButtonsPanel = GONADS.View.extend({
