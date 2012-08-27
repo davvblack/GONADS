@@ -50,6 +50,11 @@ GONADS.TileArt = GONADS.View.extend({
     classNameBindings:['tile_bkg_class'],
     classNames: ['tile'],
 
+    place: function () {
+        GONADS.map.spot(this.get('content.x'),this.get('content.y'),GONADS.TILES.get('IMPASSABLE'));
+        GONADS.map.refresh_pathing();
+    }
+
 })
 
 /*
