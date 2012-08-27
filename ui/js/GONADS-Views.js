@@ -32,10 +32,10 @@ GONADS.TileArt = GONADS.View.extend({
         this.$().css({left:bl.left+'px',bottom:bl.bottom+'px'}).css('z-index',-bl.bottom);
     },
     templateName: "tile",
-    place: function () {
+    /*place: function () {
         //console.log(this.get('content.player._id'));
         //SDD.Quickdraft.un_draft_player(this.get('content.player._id'));
-    },
+    },*/
 
     tile_bkg_class: function () {
         return String(this.get('content.tile_type.img_class')) + '1';
@@ -52,6 +52,7 @@ GONADS.TileArt = GONADS.View.extend({
 
     place: function () {
         GONADS.map.spot(this.get('content.x'),this.get('content.y'),GONADS.TILES.get('IMPASSABLE'));
+        GONADS.map.clear_pathing();
         GONADS.map.refresh_pathing();
     }
 
@@ -84,7 +85,7 @@ GONADS.EntityArt = GONADS.View.extend({
         var bl_next = bl_from_xy(this.get('content.x')+coord_delta.x, this.get('content.y')+coord_delta.y);
 
         this.$().css({left:bl.left+'px',bottom:bl.bottom+'px'}).css('z-index',-bl_next.bottom);
-        console.log(bl.left, bl_next.left);
+        //console.log(bl.left, bl_next.left);
         this.$().animate({left:bl_next.left+'px',bottom:bl_next.bottom+'px'}, this.get('content.speed')-200)
 
         this.$().html(this.get('content.x') + this.get('content.y') + this.get('content.facing'));

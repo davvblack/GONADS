@@ -54,11 +54,14 @@ GONADS.Game = Em.Object.extend({
                         //console.log('moving');
                         var facing = GONADS.map.coord(e_arr[i].get('x'), e_arr[i].get('y')).get('path');
                         //console.log(new_facing);
-                        delta = delta_from_cardinal(facing);
-                        var new_facing = GONADS.map.coord(e_arr[i].get('x')+delta.x, e_arr[i].get('y')+delta.y).get('path');
-                        GONADS.entities.objectAt(i).setProperties({'x': e_arr[i].get('x')+delta.x,
-                                                                   'y': e_arr[i].get('y')+delta.y,
-                                                                   'facing': new_facing});
+                        if(facing)
+                        {
+                            delta = delta_from_cardinal(facing);
+                            var new_facing = GONADS.map.coord(e_arr[i].get('x')+delta.x, e_arr[i].get('y')+delta.y).get('path');
+                            GONADS.entities.objectAt(i).setProperties({'x': e_arr[i].get('x')+delta.x,
+                                                                       'y': e_arr[i].get('y')+delta.y,
+                                                                       'facing': new_facing});
+                        }
                         break;
 
                 }
@@ -258,6 +261,22 @@ GONADS.Map = Em.Object.extend({
             {
                 //console.log('dirtying '+i);
                 this.dirty_tile(neighbors[i]);
+                neighbors[i].steps = INFINITY;
+            }
+        }
+    },
+    clear_pathing: function () {
+        for(var i in GONADS.map.content)
+        {
+            if (GONADS.map.content.hasOwnProperty(i));
+            {
+                delete GONADS.map.content[i].steps;
+                delete GONADS.map.content[i].path;
+                if(GONADS.map.content[i].tile_type.goal)
+                {
+                    GONADS.map.content[i].steps = 0;
+                    GONADS.map.dirty_tile(GONADS.map.content[i]);
+                }
             }
         }
     }
