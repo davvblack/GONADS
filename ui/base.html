@@ -3,6 +3,13 @@
 
 </script>
 
+<script type="text/x-handlebars" data-template-name="tile">
+<!--<a {action count_steps}>.</a>-->
+
+<a {{action place}} class='reticule'></a>
+
+</script>
+
 <script type="text/x-handlebars" data-template-name="robot-template">
 <div class="base base-leg">
     <div class="chassis chassis-wedge">
@@ -82,12 +89,7 @@ body{
 
 <link rel='stylesheet' href='css/robot.css'></style>
 
-<script type="text/x-handlebars" data-template-name="tile">
-<!--<a {{action count_steps}}>.</a>-->
 
-<a {{action place}} class='reticule'></a>
-
-</script>
 
 <script type="text/x-handlebars" data-template-name="buttons-panel">
 <button {{action pickWood}}>Wood</button>
