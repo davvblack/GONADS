@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
     <head>
 
@@ -85,8 +86,8 @@ body{
 }
 .map{
     position:absolute;
-    top:600;
-    left:-400;
+    top:600px;
+    left:-400px;
 }
 </style>
 
@@ -121,7 +122,10 @@ body{
 <script type="text/javascript" src="js/libs/handlebars-1.0.0.beta.6.js"></script>
 <script type="text/javascript" src="js/libs/ember-1.0.pre.js"></script>
 <script>
-    GONADS = Ember.Application.create();
+GONADS = Ember.Application.create();
+$(document).ready(function() {
+    GONADS.GameState.goToState('in_game');
+});
 </script>
 <script type="text/javascript" src="js/GONADS-Helpers.js"></script>
 <script type="text/javascript" src="js/GONADS-Views.js"></script>

@@ -343,7 +343,7 @@ GONADS.Status = Em.StateManager.extend({
 });
 
 GONADS.GameState = GONADS.Status.create({
-    initialState: 'in_game',
+    initialState: 'in_limbo',
     states: {
 
         in_lobby: Em.State.create({
