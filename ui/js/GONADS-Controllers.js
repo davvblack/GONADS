@@ -41,7 +41,7 @@ GONADS.Game = Em.Object.extend({
         GONADS.updater = setInterval(function(){GONADS.game.update_state()},100);
         GONADS.animator = setInterval(function(){GONADS.game.update_state()},300);
         //GONADS.updater.start();
-        //GONADS.nests = [GONADS.Nest.create({x:12,y:9})];
+        GONADS.nests = [];//GONADS.Nest.create({x:12,y:9})];
         GONADS.entities = Ember.ArrayController.create({content:[]});
         this.set('brush',GONADS.TILES.get('WOOD'));
     },
