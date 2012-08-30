@@ -39,7 +39,7 @@ GONADS.Game = Em.Object.extend({
         GONADS.map = GONADS.Map.create();
         GONADS.map.fill_clean(0,0,16,23,GONADS.TILES.get('FLAT'), true);
         GONADS.updater = setInterval(function(){GONADS.game.update_state()},100);
-        GONADS.animator = setInterval(function(){GONADS.game.update_state()},300);
+        GONADS.animator = setInterval(function(){GONADS.game.animate()},300);
         //GONADS.updater.start();
         GONADS.nests = [];//GONADS.Nest.create({x:12,y:9})];
         GONADS.entities = Ember.ArrayController.create({content:[]});
@@ -209,53 +209,57 @@ GONADS.Map = Em.Object.extend({
     {
         var working_tile;
         var t=0;
+
+        //loop through the list of tiles you know need to be updated.  This list can be added
+        // to by this function, making it soft-recursive.
+        //Limit recursion depth, but it should never hit it.
         while((working_tile = GONADS.map.dirty.shift()) && t++ < 50000)
         {
             var neighbor_steps, min_neighbor;
-            neighbor_steps = this.get_neighbors(working_tile.x,working_tile.y) ;
-            //console.log(neighbor_steps);
-            //console.log(working_tile);
+            //Returns pointers to cardinal neighbors
+            neighbor_steps = this.get_neighbors(working_tile.x,working_tile.y);
             min_neighbor = min_object(neighbor_steps,'steps');
-            //console.log(min_neighbor);
             directions = "NSEW";
             if(min_neighbor.val != INFINITY)
             {
                 //console.log('whoa');
             }
+            //Do not re-path from goal, to leave those tiles at zero.  If there is no existing known
+            //number of steps to get from a neighbor to working tile, or if the 'pathing' difficulty of the current tile
+            //plus the easiest-to-get-to known-neigbor is quicker than the other way, then ...
             if(!working_tile.tile_type.goal && ((min_neighbor.val + working_tile.tile_type.pathing != working_tile.steps) || !isset(working_tile.steps)))
             {
                 old_steps = working_tile.steps;
                 working_tile.steps = min_neighbor.val + working_tile.tile_type.pathing;
+
+                //This part doesn't work.  If the updated path is worse than the old one, something needs to happen upstream
+                //to tiles that try to walk through this path, since they will obviously all get worse.
                 if(old_steps < working_tile.steps)
                 {
-                    console.log('would dirty pointing at');
-                    console.log(working_tile);
-                    //GONADS.map.
                     GONADS.map.dirty_pointing_at(working_tile);
                 }
-                //console.log(working_tile.steps);
+                //The tile you leave this one to go home doesn't need to be checked again, there's no way it got shorter.
                 for(i in min_neighbor.key)
                 {
                     directions = directions.replace(min_neighbor.key[i],'');
                 }
+                //Infinity means completely unpathable.  Hitting a wall means you never need to dirty any other tiles.
+                //Otherwise, by dirtying the other directions, you make the function check them next.
                 if(working_tile.steps != INFINITY)
                 {
-                    //console.log('wants to dirty neighbors');
-                    //console.log(directions);
                     this.dirty_directions(working_tile,directions);
                 }
-                //console.log(directions);
+                //randomly chose from the list of shortest neighbors.
                 var new_direction = min_neighbor.key[Math.floor(Math.random() * min_neighbor.key.length)];
-                //console.log(new_direction);
+                //and set one to the direction robots will leave the working square from.
                 working_tile.path = new_direction;
             }
-            //console.log(neighbor_steps);
             for(i in neighbor_steps)
             {
+                //Make sure all un-dirty, uncalculated (but extant) adjacent tiles are dirtied.  By doing it this way
+                //instead of just having them all start dirty, you start with better data and recalculate less initially.
                 if(neighbor_steps[i] && !isset(neighbor_steps[i]['steps']))
                 {
-                    //console.log('would dirty');
-                    //console.log(neighbor_steps[i]);
                     neighbor_steps[i]['steps'] = INFINITY;
                     GONADS.map.dirty_tile(neighbor_steps[i]);
                 }
@@ -273,12 +277,15 @@ GONADS.Map = Em.Object.extend({
     dirty_directions: function(from_tile, directions) {
         var x = from_tile.x;
         var y = from_tile.y;
+        //If the string of directions contains the given direction, and that direction is on the map, dirty it.
         if(directions.indexOf('N') != -1 && this.coord(x,y+1)) this.dirty_tile(this.coord(x,y+1));
         if(directions.indexOf('S') != -1 && this.coord(x,y-1)) this.dirty_tile(this.coord(x,y-1));
         if(directions.indexOf('E') != -1 && this.coord(x+1,y)) this.dirty_tile(this.coord(x+1,y));
         if(directions.indexOf('W') != -1 && this.coord(x-1,y)) this.dirty_tile(this.coord(x-1,y));
     },
     dirty_tile: function(tile){
+        //Prevents the same tile from entering the recalculation queue multiple times.  Note the moment it is recalculated,
+        //it is eligable to be calculated again.
         if(!containsObject(GONADS.map.dirty, tile))
         {
             GONADS.map.dirty.push(tile);
@@ -292,24 +299,22 @@ GONADS.Map = Em.Object.extend({
             W: this.coord(x-1,y),
         }
     },
+    //Dirtys any adjacent tile that points towards the given tile.  Good for voiding upstream paths.
     dirty_pointing_at: function (tile) {
-        //console.log('dirtying point');
-        //console.log(tile);
         var neighbors = this.get_neighbors(tile.x, tile.y);
         var opposites = {N:'S',S:'N',E:'W',W:'E'};
 
         for(i in neighbors)
         {
-            //console.log(neighbors[i]);
-            //console.log(opposites[i]);
             if(neighbors[i] && neighbors[i].path == opposites[i])
             {
-                //console.log('dirtying '+i);
                 this.dirty_tile(neighbors[i]);
                 neighbors[i].steps = INFINITY;
             }
         }
     },
+    //My cop-out pathing solution for paths that get worse.  This is a massive performance hit and wouldn't be good
+    //to do on larger maps.
     clear_pathing: function () {
         for(var i in GONADS.map.content)
         {
